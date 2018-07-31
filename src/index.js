@@ -25,8 +25,7 @@ function map(array, fn) {
 
     for (let i = 0; i < array.length; i++) {
 
-        array2[i] = fn(array[i], i, array);
-        
+        array2.push(fn(array[i], i, array));
     }
 
 }
@@ -65,19 +64,8 @@ function reduce(array, fn, initial) {
    upperProps({ name: 'Сергей', lastName: 'Петров' }) вернет ['NAME', 'LASTNAME']
  */
 function upperProps(obj) {
-    var array2 = [],
-        toUpperCase;
 
-    for ( var key in obj) {
-        if (obj.hasOwnProperty( key )) {
-
-            toUpperCase = key.toUpperCase();
-            array2.push(toUpperCase);
-
-        }
-    }
-
-    return array2;
+    return Object.keys(obj).map(prop => prop.toUpperCase());
 }
 upperProps({ name: 'Сергей', lastName: 'Петров' });
 /*
@@ -86,16 +74,31 @@ upperProps({ name: 'Сергей', lastName: 'Петров' });
  Напишите аналог встроенного метода slice для работы с массивами
  Посмотрите как работает slice и повторите это поведение для массива, который будет передан в параметре array
  */
-var arr = [1, 2, 4, 5];
+var arr = [1, 2, 3, 4, 5];
 
-function slice(array, from, to) {
+function slice(array, from = 0, to = array.length) {
+    var arr2 = [];
 
-    to-=1;
-
-    for (var i = from; i < to; i++) {
-
-        return array[i];
+    if (to < array.length) {
+        to -= 1;
     }
+    if (to > array.length) {
+        to = array.length;
+    }
+    if (to < 0) {
+        to = array.length + to;
+    }
+    if (to < -array.length) {
+        to = 0;
+    }
+    if (from < 0) {
+        from = 0;
+    }
+    for (from; from < to; from++) {
+        arr2.push(array[from]);  
+    }
+
+    return arr2;
 }
 slice(arr, 1, 4);
 /*
@@ -122,7 +125,7 @@ function createProxy(obj) {
 
     proxy.num = 3;
 
-    console.log(proxy.num);
+    return proxy.num;
 }
 createProxy(object);
 export {
