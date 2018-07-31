@@ -114,15 +114,15 @@ function createProxy(obj) {
             return target[prop];
         },
         set(target, prop, value) {
-            target[prop] = value;
+            target[prop] = value * value;
 
             return true;
         }
     });
 
-    proxy.name = 'Женя';
+    proxy.num = 3;
 
-    console.log(proxy.name);
+    console.log(proxy.num);
 }
 createProxy(object);
 export {
